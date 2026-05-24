@@ -1,0 +1,25 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local dataset (too large for git)
+data/
+data.pickle
+
+# Trained model files
+model_cnn.h5
+label_encoder.pickle
+*.h5
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TensorFlow logs
+logs/
