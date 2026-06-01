@@ -35,10 +35,14 @@ if not os.path.exists(DATA_DIR):
     print(f"Error: Data directory '{DATA_DIR}' not found. Please run collect_data.py first.")
     exit(1)
 
-for dir_ in os.listdir(DATA_DIR):
+for dir_ in sorted(os.listdir(DATA_DIR)):
     if not os.path.isdir(os.path.join(DATA_DIR, dir_)):
         continue
-    for img_path in os.listdir(os.path.join(DATA_DIR, dir_)):
+    
+    class_img_paths = os.listdir(os.path.join(DATA_DIR, dir_))
+    print(f"Processing class '{dir_}' ({len(class_img_paths)} images)...")
+    
+    for img_path in class_img_paths:
         data_aux = []
         x_ = []
         y_ = []

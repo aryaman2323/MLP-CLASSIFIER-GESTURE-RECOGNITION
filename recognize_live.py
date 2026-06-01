@@ -28,14 +28,11 @@ model = keras.models.load_model('./model_cnn.h5')
 with open('./label_encoder.pickle', 'rb') as f:
     le = pickle.load(f)['label_encoder']
 
-# Map encoded integer back to letter (via LabelEncoder + labels_dict)
-labels_dict = {'0': 'A', '1': 'B', '2': 'L', '3': 'C', '4': 'D', '5': 'E', '6': 'F'}
-
-
+# Map encoded integer back to letter dynamically using the LabelEncoder
 def decode_prediction(pred_index):
     """Convert CNN output index → letter string."""
-    class_str = le.inverse_transform([pred_index])[0]   # e.g. '0', '1', ...
-    return labels_dict.get(str(class_str), str(class_str))
+    class_str = le.inverse_transform([pred_index])[0]   # e.g. 'A', 'B', '0', ...
+    return str(class_str)
 
 
 # ── Text-to-Speech (runs in a separate thread to avoid blocking) ────

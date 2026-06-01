@@ -11,13 +11,18 @@ from tensorflow.keras import layers
 # ── Load dataset ────────────────────────────────────────────────────
 data_dict = pickle.load(open('./data.pickle', 'rb'))
 data   = np.asarray(data_dict['data'], dtype=np.float32)   # shape: (N, 42)
-labels = np.asarray(data_dict['labels'])                   # string class indices e.g. '0','1',...
+labels = np.asarray(data_dict['labels'])                   # string class labels
 
-# ── Map directory numbers to letter labels for display ───────────────
-labels_dict = {'0': 'A', '1': 'B', '2': 'L', '3': 'C', '4': 'D', '5': 'E', '6': 'F'}
+# Filter to keep only target letters (A through H)
+allowed_classes = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+mask = np.isin(labels, allowed_classes)
+data = data[mask]
+labels = labels[mask]
+
+# ── Get unique class labels dynamically ──────────────────────────────
 unique_labels = np.unique(labels)
-trained_letters = [labels_dict.get(str(lbl), str(lbl)) for lbl in unique_labels]
-print(f"Training MLP model on the following letters: {', '.join(trained_letters)}")
+trained_letters = [str(lbl) for lbl in unique_labels]
+print(f"Training MLP model on the following letters/classes ({len(trained_letters)} classes): {', '.join(trained_letters)}")
 
 num_classes = len(unique_labels)
 
